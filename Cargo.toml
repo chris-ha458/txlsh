@@ -1,0 +1,21 @@
+[package]
+name = "txlsh"
+version = "0.1.0"
+authors = ["1crcbl <1crcbl@protonmail.com>, Julien Abadji <julien.e.abadji@gmail.com>, Chris Ha <hac541309@gmail.com>"]
+edition = "2021"
+description = "An alternative TLSH implementation."
+license = "BSD-3-Clause OR Apache-2.0"
+
+readme = "README.md"
+
+keywords = ["tlsh", "locality", "sensitive", "hashing"]
+categories = ["algorithms"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+name = "txlsh"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+pyo3 = "0.19.0"
+xxhash-rust ={ version="0.8",features = ["xxh3"] }

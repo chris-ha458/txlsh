@@ -1,7 +1,7 @@
 use std::str::FromStr;
 
 use crate::{
-    hash_funcs::pearson_h,
+    hash_funcs::hasher,
     helper::{bit_distance, find_quartiles, hash_len, l_capturing, mod_diff},
     helper::{BucketKind, ChecksumKind, Version},
     helper::{BUCKET_SIZE, WINDOW_SIZE},
@@ -275,22 +275,24 @@ impl TxLshBuilder {
             self.slide_window[j0] = data[ii];
 
             if fed_len >= 4 {
-                self.checksum = pearson_h(
+                self.checksum = hasher(
                     0,
                     self.slide_window[j0],
                     self.slide_window[j1],
                     self.checksum,
+                    self.ver,
                 );
 
                 if self.checksum_len > 1 {
                     self.checksum_array[0] = self.checksum;
 
                     for kk in 1..self.checksum_len {
-                        self.checksum_array[kk] = pearson_h(
+                        self.checksum_array[kk] = hasher(
                             self.checksum_array[kk - 1],
                             self.slide_window[j0],
                             self.slide_window[j1],
                             self.checksum_array[kk],
+                            self.ver,
                         )
                     }
                 }
@@ -299,51 +301,57 @@ impl TxLshBuilder {
                 // A  - B   - C  - D  - E
                 // j0   j1    j2   j3   j4
 
-                let mut r = pearson_h(
+                let mut r = hasher(
                     2,
                     self.slide_window[j0],
                     self.slide_window[j1],
                     self.slide_window[j2],
+                    self.ver,
                 );
                 self.buckets[r as usize] += 1;
 
-                r = pearson_h(
+                r = hasher(
                     3,
                     self.slide_window[j0],
                     self.slide_window[j1],
                     self.slide_window[j3],
+                    self.ver,
                 );
                 self.buckets[r as usize] += 1;
 
-                r = pearson_h(
+                r = hasher(
                     5,
                     self.slide_window[j0],
                     self.slide_window[j2],
                     self.slide_window[j3],
+                    self.ver,
                 );
                 self.buckets[r as usize] += 1;
 
-                r = pearson_h(
+                r = hasher(
                     7,
                     self.slide_window[j0],
                     self.slide_window[j2],
                     self.slide_window[j4],
+                    self.ver,
                 );
                 self.buckets[r as usize] += 1;
 
-                r = pearson_h(
+                r = hasher(
                     11,
                     self.slide_window[j0],
                     self.slide_window[j1],
                     self.slide_window[j4],
+                    self.ver,
                 );
                 self.buckets[r as usize] += 1;
 
-                r = pearson_h(
+                r = hasher(
                     13,
                     self.slide_window[j0],
                     self.slide_window[j3],
                     self.slide_window[j4],
+                    self.ver,
                 );
                 self.buckets[r as usize] += 1;
             }

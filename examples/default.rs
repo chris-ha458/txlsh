@@ -27,7 +27,7 @@ fn main() {
         if pb.is_file() {
             let mut builder = TxLshBuilder::new(
                 txlsh::BucketKind::Bucket128,
-                txlsh::ChecksumKind::ThreeByte,
+                txlsh::ChecksumKind::OneByte,
                 txlsh::Version::Version4,
             );
             let file = File::open(&pb).unwrap();

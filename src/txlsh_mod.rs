@@ -1,10 +1,10 @@
 use std::str::FromStr;
 
 use crate::{
+    hash_funcs::pearson_h,
     helper::{bit_distance, find_quartiles, hash_len, l_capturing, mod_diff},
     helper::{BucketKind, ChecksumKind, Version},
     helper::{BUCKET_SIZE, WINDOW_SIZE},
-    pearson::pearson_h,
     TxLshError,
 };
 

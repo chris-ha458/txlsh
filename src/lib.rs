@@ -7,8 +7,8 @@ pub use crate::helper::{BucketKind, ChecksumKind, Version};
 mod error;
 pub use error::TxLshError;
 
-mod pearson;
-use crate::pearson::pearson_h;
+mod hash_funcs;
+use crate::hash_funcs::pearson_h;
 
 mod txlsh_mod;
 pub use crate::txlsh_mod::{TxLsh, TxLshBuilder};

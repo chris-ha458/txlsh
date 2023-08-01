@@ -4,6 +4,7 @@ use std::{
     fs::{read_dir, File},
     io::{BufReader, Read},
     path::Path,
+    time::Instant,
 };
 
 use txlsh::TxLshBuilder;
@@ -34,6 +35,7 @@ fn main() {
             let mut reader = BufReader::new(file);
 
             let mut byte_read = 1;
+
             while byte_read != 0 {
                 match reader.read(&mut buffer) {
                     Ok(n) => {
@@ -49,16 +51,18 @@ fn main() {
             );
         }
     }
-    for (p1, tlsh3) in &hm {
+    for (p1, tlsh1) in &hm {
+        let now = Instant::now();
         println!("++ File: {}", p1);
-        println!("   Hash: {}", tlsh3.hash());
+        println!("   Hash: {}", tlsh1.hash());
 
         for (p2, tlsh2) in &hm {
             if p1 == p2 {
                 continue;
             }
 
-            println!("   diff with {}: {}", p2, tlsh3.diff(tlsh2, true));
+            println!("   diff with {}: {}", p2, tlsh1.diff(tlsh2, true));
         }
+        println!("{}", now.elapsed().as_secs());
     }
 }

@@ -377,3 +377,53 @@ impl TxLshBuilder {
         self.slide_window.fill(0);
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    static LOREM_0: &[u8] = b"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
+    #[test]
+    fn test_tlsh_default() {
+        let lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+        let mut tlsh_default = TxLshBuilder::new(
+            BucketKind::Bucket128,
+            ChecksumKind::OneByte,
+            Version::Version4,
+        );
+        tlsh_default.update_from(LOREM_0, 0, lorem.len());
+        assert_eq!(
+            "T1DCF0DC36520C1B007FD32079B226559FD998A0200725E75AFCEAC99F5881184A4B1AA2",
+            tlsh_default.build().unwrap().hash()
+        )
+    }
+    #[test]
+    fn test_tlsh_ungoliant() {
+        let lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+        let mut tlsh_ungoliant = TxLshBuilder::new(
+            BucketKind::Bucket256,
+            ChecksumKind::ThreeByte,
+            Version::Version4,
+        );
+        tlsh_ungoliant.update_from(LOREM_0, 0, lorem.len());
+        assert_eq!(
+            "T1DC33D4F0DCA405C02AF1D4860CA5894A05301D60E9915198060A7044C608A1E89A11BD2B2836520C1B007FD32079B226559FD998A0200725E75AFCEAC99F5881184A4B1AA2",
+            tlsh_ungoliant.build().unwrap().hash()
+        )
+    }
+    #[test]
+    fn test_txlsh() {
+        let lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+        let mut txlsh = TxLshBuilder::new(
+            BucketKind::Bucket256,
+            ChecksumKind::ThreeByte,
+            Version::TxLshV1,
+        );
+        txlsh.update_from(LOREM_0, 0, lorem.len());
+        assert_eq!(
+            "X18B6AADF05C1C6293150EE83C25635D4C68650291D7C57D492757E52174B7800D6577546B39F325196422CA6DA78F6553446016F5B138B8F8B97410A0D3930ACD3FBCB99991",
+            txlsh.build().unwrap().hash()
+        )
+    }
+}

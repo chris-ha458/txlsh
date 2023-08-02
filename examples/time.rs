@@ -12,7 +12,7 @@ use txlsh::TxLshBuilder;
 fn main() {
     let args: Vec<String> = env::args().collect();
     let dir = Path::new(args.get(1).unwrap());
-    let mut buffer = [0; 1024];
+    let mut buffer = [0; 2048];
     let mut hm = HashMap::new();
 
     for entry in read_dir(dir).unwrap() {

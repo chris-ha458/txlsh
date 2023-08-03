@@ -15,11 +15,6 @@ pub use crate::txlsh_mod::{TxLsh, TxLshBuilder};
 mod txlsh_builders;
 pub use crate::txlsh_builders::{default_builder, full_builder,tx_lsh_builder};
 
-/// Formats the sum of two numbers as string.
-#[pyfunction]
-fn sum_as_string(a: usize, b: usize) -> PyResult<String> {
-    Ok((a + b).to_string())
-}
 /// Pearson hash exposed for Python
 #[pyfunction]
 fn pearson_hash(salt: u8, ii: u8, jj: u8, kk: u8) -> PyResult<u8> {
@@ -69,7 +64,6 @@ fn txlsh_hash(binary_data: &PyBytes) -> PyResult<String> {
 /// A Python module implemented in Rust.
 #[pymodule]
 fn txlsh(_py: Python, m: &PyModule) -> PyResult<()> {
-    m.add_function(wrap_pyfunction!(sum_as_string, m)?)?;
     m.add_function(wrap_pyfunction!(pearson_hash, m)?)?;
     m.add_function(wrap_pyfunction!(default_hash, m)?)?;
     m.add_function(wrap_pyfunction!(full_hash, m)?)?;

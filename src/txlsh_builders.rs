@@ -9,7 +9,7 @@ pub fn default_builder() -> TxLshBuilder {
     )
 }
 
-pub fn ungoliant_builder() -> TxLshBuilder {
+pub fn full_builder() -> TxLshBuilder {
     TxLshBuilder::new(
         BucketKind::Bucket256,
         ChecksumKind::ThreeByte,
@@ -17,7 +17,7 @@ pub fn ungoliant_builder() -> TxLshBuilder {
     )
 }
 
-pub fn TxLsh_builder() -> TxLshBuilder {
+pub fn tx_lsh_builder() -> TxLshBuilder {
     TxLshBuilder::new(
         BucketKind::Bucket256,
         ChecksumKind::ThreeByte,

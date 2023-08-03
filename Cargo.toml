@@ -19,3 +19,14 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 pyo3 = "0.19.0"
 xxhash-rust ={ version="0.8",features = ["xxh3"] }
+
+[profile.release]
+opt-level = 3
+debug = false
+debug-assertions = false
+overflow-checks = false
+lto = true
+panic = 'unwind'
+incremental = false
+codegen-units = 16
+rpath = false
